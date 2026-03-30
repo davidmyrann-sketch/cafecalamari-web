@@ -350,73 +350,31 @@
     <p class="section-tag">{{ t.shop_tag }}</p>
     <h2>{{ t.shop_h2 }}</h2>
     <p class="shop-sub sans">{{ t.shop_sub }}</p>
-    <p class="fomo-bar sans">
-      {% if lang == 'no' %}🚀 Nettbutikken åpner snart — meld deg på under og få 10% på første ordre{% elif lang == 'es' %}🚀 La tienda abre pronto — suscríbete abajo y recibe 10% en tu primer pedido{% else %}🚀 Shop opening soon — sign up below and get 10% off your first order{% endif %}
+    <p class="fomo-bar sans">🔥
+      {% if lang == 'no' %}Begrenset parti — ny høst, kun mens lageret rekker{% elif lang == 'es' %}Lote limitado — nueva cosecha, solo mientras dure el stock{% else %}Limited batch — new harvest, only while stocks last{% endif %}
     </p>
 
-    <div class="products-grid">
+    <div class="products-grid" style="max-width:380px;">
 
-      <!-- Produkt 1 -->
-      <div class="product-card">
-        <div class="product-img">
-          ☕
-          <span class="product-badge">Bestselger</span>
-        </div>
-        <div class="product-body">
-          <div class="origin">Santa Bárbara · Colombia · 1 700 moh.</div>
-          <h3>Calamarí Espresso</h3>
-          <p class="sans">Mørk, fyldig og balansert. Smak av mørk sjokolade og karamell. Perfekt til espresso og melkedrikker.</p>
-          <div class="product-footer">
-            <div class="product-price sans">249 kr</div>
-          </div>
-          <!-- SHOPIFY BUY BUTTON — lim inn embed-kode her fra Shopify admin → Buy Button -->
-          <div class="shopify-buy-btn-wrap" id="shopify-product-1">
-            <a href="#nyhetsbrev" class="btn-buy">
-              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Produkt 2 -->
+      <!-- Santa Bárbara Coffee — Hele Bønner 500g -->
       <div class="product-card">
         <div class="product-img">
           🫘
           <span class="product-badge">Single Origin</span>
         </div>
         <div class="product-body">
-          <div class="origin">Santa Bárbara · Colombia · 1 750 moh.</div>
-          <h3>Calamarí Filter</h3>
-          <p class="sans">Lys og blomstrete. Sitrus, fersken og jasmin. Brygges best som pour-over eller Aeropress.</p>
+          <div class="origin">Santa Bárbara · Colombia · 1 700 moh.</div>
+          <h3>Santa Bárbara Coffee — Hele Bønner 500g</h3>
+          <p class="sans">
+            {% if lang == 'no' %}Håndplukket på 1 700 meters høyde av en familiebonde i Santa Bárbara, Colombia. Smak av mørk sjokolade, karamell og et hint av sitrus. Ferskt ristet og klar for levering.{% elif lang == 'es' %}Recolectado a mano a 1 700 metros por una familia cafetera en Santa Bárbara, Colombia. Sabores de chocolate oscuro, caramelo y un toque cítrico. Recién tostado y listo para envío.{% else %}Hand-picked at 1,700 metres by a family farmer in Santa Bárbara, Colombia. Flavours of dark chocolate, caramel and a hint of citrus. Freshly roasted and ready to ship.{% endif %}
+          </p>
           <div class="product-footer">
-            <div class="product-price sans">269 kr</div>
+            <div class="product-price sans">249 kr</div>
           </div>
-          <div class="shopify-buy-btn-wrap" id="shopify-product-2">
-            <a href="#nyhetsbrev" class="btn-buy">
-              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Produkt 3 -->
-      <div class="product-card">
-        <div class="product-img">
-          🎁
-          <span class="product-badge" style="background:#fff;color:var(--brown);">Gave</span>
-        </div>
-        <div class="product-body">
-          <div class="origin">Gavesett · 2 × 250g</div>
-          <h3>Calamarí Gavepakke</h3>
-          <p class="sans">Espresso + Filter i elegant emballasje. Perfekt gave til kaffenørden i livet ditt.</p>
-          <div class="product-footer">
-            <div class="product-price sans">
-              <span class="old">449 kr</span>399 kr
-            </div>
-          </div>
-          <div class="shopify-buy-btn-wrap" id="shopify-product-3">
-            <a href="#nyhetsbrev" class="btn-buy">
-              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
+          <div class="shopify-buy-btn-wrap">
+            <a href="https://cafecalamari.myshopify.com/products/santa-barbara-coffee-hele-bonner-500g"
+               target="_blank" class="btn-buy">
+              {% if lang == 'no' %}Kjøp nå →{% elif lang == 'es' %}Comprar ahora →{% else %}Buy now →{% endif %}
             </a>
           </div>
         </div>
@@ -426,11 +384,11 @@
 
     <p class="shopify-note sans" style="margin-top:32px;">
       {% if lang == 'no' %}
-        Produktene våre er under oppsett. Meld deg på nyhetsbrevet for å bli varslet når butikken åpner.
+        Sikker betaling via Shopify. Levering 2–4 virkedager.
       {% elif lang == 'es' %}
-        Nuestros productos están en configuración. Suscríbete para ser notificado cuando la tienda abra.
+        Pago seguro a través de Shopify. Entrega en 2–4 días laborables.
       {% else %}
-        Our products are being set up. Sign up to be notified when the shop opens.
+        Secure payment via Shopify. Delivery within 2–4 working days.
       {% endif %}
     </p>
   </div>
