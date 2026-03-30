@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Calamarí — Single Origin Kaffe fra Colombia</title>
+  <meta name="description" content="Direktehandel single origin kaffe fra Santa Bárbara, Colombia. Håndplukket på 1 700 moh. Ferskt ristet i Oslo.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐙</text></svg>">
+
+  <!-- Shopify Buy Button SDK — aktiveres når SHOPIFY_STORE_URL er satt -->
+  {% if shopify_url %}
+  <script type="text/javascript">
+    (function () { var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+    if (window.ShopifyBuy) { if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); } }
+    else { loadScript(); }
+    function loadScript() { var script = document.createElement('script'); script.async = true;
+    script.src = scriptURL; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    script.onload = ShopifyBuyInit; }
+    function ShopifyBuyInit() { /* Kjøpknapper initialiseres per produkt-div nedenfor */ }
+    })();
+  </script>
+  {% endif %}
+
+  <style>
+    /* ── Reset & Base ────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream:    #fdf6ee;
+      --warm:     #f5e6ce;
+      --espresso: #2b1a0e;
+      --brown:    #6b3a1f;
+      --gold:     #c8860a;
+      --gold-lt:  #f0c060;
+      --text:     #1a1008;
+      --muted:    #7a6050;
+      --white:    #ffffff;
+      --radius:   12px;
+      --shadow:   0 4px 24px rgba(43,26,14,.10);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Georgia', serif; background: var(--cream); color: var(--text); line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+
+    /* ── Layout ─────────────────────────────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    .section-tag { font-family: -apple-system, sans-serif; font-size: .75rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+
+    /* ── Nav ────────────────────────────────────────────────────────────── */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--espresso);
+          box-shadow: 0 2px 16px rgba(0,0,0,.25); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between;
+                 padding: 0 24px; height: 64px; max-width: 1100px; margin: 0 auto; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; color: var(--cream); }
+    .nav-logo span.octopus { font-size: 1.6rem; }
+    .nav-logo span.name { font-size: 1.15rem; font-weight: 700; letter-spacing: .02em; }
+    .nav-links { display: flex; align-items: center; gap: 28px; font-family: -apple-system, sans-serif;
+                 font-size: .9rem; }
+    .nav-links a { color: rgba(255,255,255,.8); transition: color .2s; }
+    .nav-links a:hover { color: var(--gold-lt); }
+    .nav-cta { background: var(--gold); color: var(--espresso) !important; font-weight: 700;
+               padding: 9px 20px; border-radius: 999px; transition: background .2s !important; }
+    .nav-cta:hover { background: var(--gold-lt) !important; }
+    .lang-switcher { display: flex; gap: 8px; align-items: center; }
+    .lang-switcher a { font-family: -apple-system, sans-serif; font-size: .78rem; font-weight: 600;
+      color: rgba(255,255,255,.5); padding: 3px 8px; border-radius: 4px; transition: all .2s; }
+    .lang-switcher a.active, .lang-switcher a:hover { color: var(--gold-lt);
+      background: rgba(255,255,255,.1); }
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer;
+                     color: var(--cream); font-size: 1.5rem; }
+    .nav-mobile { display: none; flex-direction: column; padding: 16px 24px 20px;
+                  background: var(--espresso); gap: 16px; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { color: rgba(255,255,255,.85); font-family: -apple-system, sans-serif;
+                    font-size: 1rem; }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+    }
+
+    /* ── Hero ───────────────────────────────────────────────────────────── */
+    .hero { min-height: 92vh; display: flex; align-items: center;
+            background: linear-gradient(135deg, var(--espresso) 0%, #4a2810 60%, #7a4020 100%);
+            position: relative; overflow: hidden; }
+    .hero::before { content: '🐙'; position: absolute; right: -2%; top: 50%;
+      transform: translateY(-50%); font-size: min(45vw, 480px); opacity: .06;
+      pointer-events: none; user-select: none; }
+    .hero-content { position: relative; z-index: 1; max-width: 640px; }
+    .hero .section-tag { color: var(--gold-lt); }
+    .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--cream); line-height: 1.15;
+               margin-bottom: 20px; }
+    .hero h1 em { color: var(--gold-lt); font-style: normal; }
+    .hero p  { font-size: 1.15rem; color: rgba(253,246,238,.75); margin-bottom: 36px; line-height: 1.8; }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: var(--espresso); font-family: -apple-system, sans-serif;
+      font-weight: 700; font-size: 1rem; padding: 15px 32px; border-radius: 999px;
+      transition: background .2s, transform .15s; display: inline-block; }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+    .btn-ghost { border: 2px solid rgba(253,246,238,.4); color: var(--cream);
+      font-family: -apple-system, sans-serif; font-weight: 600; font-size: 1rem;
+      padding: 13px 28px; border-radius: 999px; transition: all .2s; display: inline-block; }
+    .btn-ghost:hover { border-color: var(--cream); background: rgba(253,246,238,.08); }
+
+    /* ── Trust bar ──────────────────────────────────────────────────────── */
+    .trust-bar { background: var(--gold); padding: 14px 0; }
+    .trust-inner { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+                   font-family: -apple-system, sans-serif; font-size: .85rem; font-weight: 600;
+                   color: var(--espresso); }
+    .trust-inner span::before { content: '✓ '; }
+
+    /* ── Story ──────────────────────────────────────────────────────────── */
+    .story { background: var(--cream); }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .story-img { position: relative; }
+    .story-img-inner { border-radius: var(--radius); overflow: hidden;
+      aspect-ratio: 4/5; background: linear-gradient(160deg, #4a2810 0%, #8b4513 50%, #c8860a 100%);
+      display: flex; align-items: center; justify-content: center; }
+    .story-img-inner .big-emoji { font-size: 8rem; opacity: .85; }
+    .story-badge { position: absolute; bottom: -16px; right: -16px;
+      background: var(--espresso); color: var(--gold-lt); border-radius: 50%;
+      width: 100px; height: 100px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; font-family: -apple-system, sans-serif; font-size: .7rem;
+      font-weight: 700; text-align: center; line-height: 1.3; border: 3px solid var(--gold); }
+    .story h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--espresso); line-height: 1.25;
+                margin-bottom: 20px; }
+    .story p  { color: var(--muted); margin-bottom: 16px; font-size: 1.05rem; }
+    .btn-link { color: var(--gold); font-family: -apple-system, sans-serif; font-weight: 700;
+                font-size: .95rem; border-bottom: 2px solid transparent; transition: border .2s; }
+    .btn-link:hover { border-color: var(--gold); }
+    @media (max-width: 720px) { .story-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* ── Shop ───────────────────────────────────────────────────────────── */
+    .shop { background: var(--espresso); }
+    .shop .section-tag { color: var(--gold-lt); }
+    .shop h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--cream); margin-bottom: 10px; }
+    .shop-sub { color: rgba(253,246,238,.65); font-size: 1rem; margin-bottom: 12px; font-family: -apple-system, sans-serif; }
+    .fomo-bar { display: inline-block; background: rgba(200,134,10,.18); border: 1px solid var(--gold);
+      color: var(--gold-lt); padding: 8px 20px; border-radius: 999px;
+      font-family: -apple-system, sans-serif; font-size: .85rem; font-weight: 600; margin-bottom: 40px; }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .product-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius); overflow: hidden; transition: transform .2s, box-shadow .2s; }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+    .product-img { aspect-ratio: 1; background: linear-gradient(135deg, #3a2010, #6b3a1f);
+      display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
+    .product-badge { position: absolute; top: 12px; right: 12px; background: var(--gold);
+      color: var(--espresso); font-family: -apple-system, sans-serif; font-size: .72rem;
+      font-weight: 700; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+    .product-body { padding: 20px; }
+    .product-body h3 { color: var(--cream); font-size: 1.1rem; margin-bottom: 6px; }
+    .product-body .origin { color: var(--gold-lt); font-family: -apple-system, sans-serif;
+      font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
+    .product-body p { color: rgba(253,246,238,.6); font-size: .9rem; margin-bottom: 16px;
+      font-family: -apple-system, sans-serif; line-height: 1.6; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { color: var(--cream); font-family: -apple-system, sans-serif;
+      font-weight: 700; font-size: 1.1rem; }
+    .product-price .old { color: rgba(253,246,238,.35); text-decoration: line-through;
+      font-size: .85rem; margin-right: 6px; }
+    /* Shopify Buy Button container */
+    .shopify-buy-btn-wrap { margin-top: 12px; }
+    .btn-buy { display: block; width: 100%; text-align: center; background: var(--gold);
+      color: var(--espresso); font-family: -apple-system, sans-serif; font-weight: 700;
+      font-size: .95rem; padding: 12px; border-radius: 8px; border: none; cursor: pointer;
+      transition: background .2s; }
+    .btn-buy:hover { background: var(--gold-lt); }
+    .shopify-note { color: rgba(253,246,238,.4); font-family: -apple-system, sans-serif;
+      font-size: .78rem; text-align: center; margin-top: 32px; }
+    .shopify-note a { color: var(--gold-lt); }
+
+    /* ── Why ────────────────────────────────────────────────────────────── */
+    .why { background: var(--warm); }
+    .why h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--espresso); margin-bottom: 48px; text-align: center; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; }
+    .why-card { background: var(--white); border-radius: var(--radius); padding: 28px 24px;
+      box-shadow: var(--shadow); }
+    .why-icon { font-size: 2rem; margin-bottom: 14px; }
+    .why-card h3 { font-size: 1.05rem; color: var(--espresso); margin-bottom: 8px; }
+    .why-card p  { color: var(--muted); font-size: .9rem; font-family: -apple-system, sans-serif; line-height: 1.6; }
+
+    /* ── Social / Instagram ─────────────────────────────────────────────── */
+    .social { background: var(--cream); text-align: center; }
+    .social h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--espresso); margin-bottom: 10px; }
+    .social-sub { color: var(--muted); font-family: -apple-system, sans-serif;
+      font-size: 1rem; margin-bottom: 32px; }
+    /* Instagram embed placeholder — bytt ut med SnapWidget / LightWidget embed-kode */
+    .ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+               max-width: 720px; margin: 0 auto 32px; }
+    .ig-tile { aspect-ratio: 1; border-radius: 8px; overflow: hidden;
+      background: linear-gradient(135deg, #4a2810, #c8860a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; opacity: .85; transition: opacity .2s, transform .2s; }
+    .ig-tile:hover { opacity: 1; transform: scale(1.02); }
+    .btn-ig { display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white; font-family: -apple-system, sans-serif; font-weight: 700;
+      padding: 13px 28px; border-radius: 999px; font-size: .95rem; transition: opacity .2s; }
+    .btn-ig:hover { opacity: .9; }
+
+    /* ── Newsletter ─────────────────────────────────────────────────────── */
+    .newsletter { background: var(--espresso); text-align: center; padding: 80px 0; }
+    .newsletter .section-tag { color: var(--gold-lt); }
+    .newsletter h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--cream);
+      margin-bottom: 12px; }
+    .newsletter p  { color: rgba(253,246,238,.65); font-family: -apple-system, sans-serif;
+      font-size: 1rem; margin-bottom: 32px; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .nl-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;
+               justify-content: center; }
+    .nl-form input { flex: 1; min-width: 220px; padding: 14px 20px; border-radius: 999px;
+      border: none; background: rgba(255,255,255,.1); color: var(--cream);
+      font-family: -apple-system, sans-serif; font-size: .95rem; outline: none;
+      border: 1px solid rgba(255,255,255,.15); }
+    .nl-form input::placeholder { color: rgba(255,255,255,.35); }
+    .nl-form input:focus { border-color: var(--gold); }
+    .nl-form button { background: var(--gold); color: var(--espresso);
+      font-family: -apple-system, sans-serif; font-weight: 700; font-size: .95rem;
+      padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer;
+      transition: background .2s; white-space: nowrap; }
+    .nl-form button:hover { background: var(--gold-lt); }
+    .nl-ok { display: none; color: var(--gold-lt); font-family: -apple-system, sans-serif;
+      font-size: 1rem; margin-top: 16px; }
+
+    /* ── Contact ────────────────────────────────────────────────────────── */
+    .contact { background: var(--warm); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .contact h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--espresso); margin-bottom: 20px; }
+    .contact-info p { color: var(--muted); font-family: -apple-system, sans-serif;
+      font-size: 1rem; margin-bottom: 12px; }
+    .contact-info a { color: var(--brown); font-weight: 600; }
+    .contact-info a:hover { color: var(--gold); }
+    .cf label { display: block; font-family: -apple-system, sans-serif; font-size: .85rem;
+      font-weight: 600; color: var(--brown); margin-bottom: 6px; letter-spacing: .04em;
+      text-transform: uppercase; }
+    .cf input, .cf textarea { width: 100%; padding: 12px 16px; border-radius: 8px;
+      border: 1px solid rgba(107,58,31,.2); background: var(--white);
+      font-family: -apple-system, sans-serif; font-size: .95rem; color: var(--text);
+      margin-bottom: 16px; outline: none; transition: border .2s; }
+    .cf input:focus, .cf textarea:focus { border-color: var(--gold); }
+    .cf textarea { min-height: 120px; resize: vertical; }
+    .cf button { background: var(--espresso); color: var(--cream);
+      font-family: -apple-system, sans-serif; font-weight: 700; font-size: .95rem;
+      padding: 14px 32px; border-radius: 999px; border: none; cursor: pointer;
+      transition: background .2s; }
+    .cf button:hover { background: var(--brown); }
+    .cf-ok { display: none; color: var(--brown); font-family: -apple-system, sans-serif;
+      font-size: .95rem; margin-top: 12px; font-weight: 600; }
+    @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    footer { background: var(--espresso); color: rgba(253,246,238,.6);
+             font-family: -apple-system, sans-serif; font-size: .85rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; padding: 40px 24px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+    .footer-logo { font-size: 2rem; }
+    .footer-links { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: rgba(253,246,238,.6); transition: color .2s; }
+    .footer-links a:hover { color: var(--gold-lt); }
+    .footer-copy { color: rgba(253,246,238,.35); font-size: .78rem; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/?lang={{ lang }}" class="nav-logo">
+      <span class="octopus">🐙</span>
+      <span class="name">Café Calamarí</span>
+    </a>
+    <div class="nav-links sans">
+      <a href="#butikk">{{ t.nav_shop }}</a>
+      <a href="#historie">{{ t.nav_story }}</a>
+      <a href="#kontakt">{{ t.nav_contact }}</a>
+      <div class="lang-switcher">
+        <a href="/?lang=no" class="{{ 'active' if lang=='no' }}">NO</a>
+        <a href="/?lang=es" class="{{ 'active' if lang=='es' }}">ES</a>
+        <a href="/?lang=en" class="{{ 'active' if lang=='en' }}">EN</a>
+      </div>
+      <a href="#butikk" class="nav-cta">{{ t.nav_cta }}</a>
+    </div>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">☰</button>
+  </div>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#butikk"   onclick="toggleNav()">{{ t.nav_shop }}</a>
+    <a href="#historie" onclick="toggleNav()">{{ t.nav_story }}</a>
+    <a href="#kontakt"  onclick="toggleNav()">{{ t.nav_contact }}</a>
+    <a href="/?lang=no">NO</a>
+    <a href="/?lang=es">ES</a>
+    <a href="/?lang=en">EN</a>
+    <a href="#butikk" class="btn-primary" onclick="toggleNav()">{{ t.nav_cta }}</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <p class="section-tag">{{ t.hero_tag }}</p>
+      <h1>{{ t.hero_h1 }}</h1>
+      <p>{{ t.hero_sub }}</p>
+      <div class="hero-btns">
+        <a href="#butikk" class="btn-primary">{{ t.hero_cta1 }}</a>
+        <a href="#historie" class="btn-ghost">{{ t.hero_cta2 }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Trust bar ─────────────────────────────────────────────────────────────── -->
+<div class="trust-bar">
+  <div class="trust-inner sans">
+    <span>{{ t.trust_1 }}</span>
+    <span>{{ t.trust_2 }}</span>
+    <span>{{ t.trust_3 }}</span>
+    <span>{{ t.trust_4 }}</span>
+  </div>
+</div>
+
+<!-- ── Historien ──────────────────────────────────────────────────────────────── -->
+<section class="story" id="historie">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-img">
+        <div class="story-img-inner">
+          <span class="big-emoji">☕🐙</span>
+        </div>
+        <div class="story-badge sans">
+          <span style="font-size:1.4rem">1700</span>
+          <span>moh.</span>
+          <span>Colombia</span>
+        </div>
+      </div>
+      <div class="story-text">
+        <p class="section-tag">{{ t.story_tag }}</p>
+        <h2>{{ t.story_h2 }}</h2>
+        <p>{{ t.story_p1 }}</p>
+        <p>{{ t.story_p2 }}</p>
+        <a href="#butikk" class="btn-link">{{ t.story_cta }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Nettbutikk / Shop ───────────────────────────────────────────────────────── -->
+<section class="shop" id="butikk">
+  <div class="container">
+    <p class="section-tag">{{ t.shop_tag }}</p>
+    <h2>{{ t.shop_h2 }}</h2>
+    <p class="shop-sub sans">{{ t.shop_sub }}</p>
+    <p class="fomo-bar sans">{{ t.shop_fomo }}</p>
+
+    <div class="products-grid">
+
+      <!-- Produkt 1 -->
+      <div class="product-card">
+        <div class="product-img">
+          ☕
+          <span class="product-badge">Bestselger</span>
+        </div>
+        <div class="product-body">
+          <div class="origin">Santa Bárbara · Colombia · 1 700 moh.</div>
+          <h3>Calamarí Espresso</h3>
+          <p class="sans">Mørk, fyldig og balansert. Smak av mørk sjokolade og karamell. Perfekt til espresso og melkedrikker.</p>
+          <div class="product-footer">
+            <div class="product-price sans">249 kr</div>
+          </div>
+          <!-- SHOPIFY BUY BUTTON — lim inn embed-kode her fra Shopify admin → Buy Button -->
+          <div class="shopify-buy-btn-wrap" id="shopify-product-1">
+            {% if shopify_url %}
+            <!-- Shopify Buy Button embed-kode for Espresso -->
+            {% else %}
+            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
+              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Produkt 2 -->
+      <div class="product-card">
+        <div class="product-img">
+          🫘
+          <span class="product-badge">Single Origin</span>
+        </div>
+        <div class="product-body">
+          <div class="origin">Santa Bárbara · Colombia · 1 750 moh.</div>
+          <h3>Calamarí Filter</h3>
+          <p class="sans">Lys og blomstrete. Sitrus, fersken og jasmin. Brygges best som pour-over eller Aeropress.</p>
+          <div class="product-footer">
+            <div class="product-price sans">269 kr</div>
+          </div>
+          <div class="shopify-buy-btn-wrap" id="shopify-product-2">
+            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
+              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produkt 3 -->
+      <div class="product-card">
+        <div class="product-img">
+          🎁
+          <span class="product-badge" style="background:#fff;color:var(--brown);">Gave</span>
+        </div>
+        <div class="product-body">
+          <div class="origin">Gavesett · 2 × 250g</div>
+          <h3>Calamarí Gavepakke</h3>
+          <p class="sans">Espresso + Filter i elegant emballasje. Perfekt gave til kaffenørden i livet ditt.</p>
+          <div class="product-footer">
+            <div class="product-price sans">
+              <span class="old">449 kr</span>399 kr
+            </div>
+          </div>
+          <div class="shopify-buy-btn-wrap" id="shopify-product-3">
+            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
+              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="shopify-note sans" style="margin-top:32px;">
+      {% if lang == 'no' %}
+        Sikker betaling via Shopify. Levering 2–4 virkedager.
+      {% elif lang == 'es' %}
+        Pago seguro a través de Shopify. Entrega en 2–4 días laborables.
+      {% else %}
+        Secure payment via Shopify. Delivery within 2–4 working days.
+      {% endif %}
+    </p>
+  </div>
+</section>
+
+<!-- ── Hvorfor Calamarí ────────────────────────────────────────────────────────── -->
+<section class="why">
+  <div class="container">
+    <p class="section-tag">{{ t.why_tag }}</p>
+    <h2>{{ t.why_h2 }}</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🗺️</div>
+        <h3>{{ t.why_1_h }}</h3>
+        <p>{{ t.why_1_p }}</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔥</div>
+        <h3>{{ t.why_2_h }}</h3>
+        <p>{{ t.why_2_p }}</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <h3>{{ t.why_3_h }}</h3>
+        <p>{{ t.why_3_p }}</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">☕</div>
+        <h3>{{ t.why_4_h }}</h3>
+        <p>{{ t.why_4_p }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Instagram ──────────────────────────────────────────────────────────────── -->
+<section class="social">
+  <div class="container">
+    <p class="section-tag">{{ t.social_tag }}</p>
+    <h2>{{ t.social_h2 }}</h2>
+    <p class="social-sub sans">{{ t.social_sub }}</p>
+
+    <!--
+      INSTAGRAM-FEED: Bytt ut .ig-grid med embed-kode fra
+      snapwidget.com, lightwidget.com eller elfsight.com
+      (koble til @cafecalamari.no)
+    -->
+    <div class="ig-grid">
+      <div class="ig-tile">☕</div>
+      <div class="ig-tile">🐙</div>
+      <div class="ig-tile">🌿</div>
+      <div class="ig-tile">🫘</div>
+      <div class="ig-tile">⛰️</div>
+      <div class="ig-tile">☕</div>
+    </div>
+
+    <a href="https://www.instagram.com/cafecalamari.no/" target="_blank" rel="noopener" class="btn-ig sans">
+      <span>📸</span> {{ t.social_cta }}
+    </a>
+  </div>
+</section>
+
+<!-- ── Nyhetsbrev ──────────────────────────────────────────────────────────────── -->
+<section class="newsletter" id="nyhetsbrev">
+  <div class="container">
+    <p class="section-tag">{{ t.newsletter_tag }}</p>
+    <h2>{{ t.newsletter_h2 }}</h2>
+    <p>{{ t.newsletter_sub }}</p>
+    <form class="nl-form sans" id="nlForm" onsubmit="submitNewsletter(event)">
+      <input type="email" id="nlEmail" placeholder="{{ t.newsletter_ph }}" required>
+      <button type="submit">{{ t.newsletter_btn }}</button>
+    </form>
+    <p class="nl-ok" id="nlOk">{{ t.newsletter_ok }}</p>
+  </div>
+</section>
+
+<!-- ── Kontakt ────────────────────────────────────────────────────────────────── -->
+<section class="contact" id="kontakt">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p class="section-tag">{{ t.contact_tag }}</p>
+        <h2>{{ t.contact_h2 }}</h2>
+        <p>📧 <a href="mailto:hola@cafecalamari.cafe">hola@cafecalamari.cafe</a></p>
+        <p>📸 <a href="https://www.instagram.com/cafecalamari.no/" target="_blank">@cafecalamari.no</a></p>
+        <p>🌐 cafecalamari.cafe</p>
+      </div>
+      <form class="cf" id="contactForm" onsubmit="submitContact(event)">
+        <div>
+          <label>{{ t.contact_name }}</label>
+          <input type="text"  id="cfName"  required>
+        </div>
+        <div>
+          <label>{{ t.contact_email }}</label>
+          <input type="email" id="cfEmail" required>
+        </div>
+        <div>
+          <label>{{ t.contact_msg }}</label>
+          <textarea id="cfMsg" required></textarea>
+        </div>
+        <button type="submit">{{ t.contact_btn }}</button>
+        <p class="cf-ok" id="cfOk">{{ t.contact_ok }}</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🐙</div>
+    <div class="footer-links sans">
+      <a href="#butikk">{{ t.footer_shop }}</a>
+      <a href="https://www.instagram.com/cafecalamari.no/" target="_blank">{{ t.footer_ig }}</a>
+      <a href="mailto:hola@cafecalamari.cafe">{{ t.footer_mail }}</a>
+      <a href="/?lang=no">NO</a>
+      <a href="/?lang=es">ES</a>
+      <a href="/?lang=en">EN</a>
+    </div>
+    <p class="footer-copy sans">{{ t.footer_copy }}</p>
+  </div>
+</footer>
+
+<!-- ── JS ──────────────────────────────────────────────────────────────────────── -->
+<script>
+  function toggleNav() {
+    document.getElementById('navMobile').classList.toggle('open');
+  }
+
+  async function submitNewsletter(e) {
+    e.preventDefault();
+    const email = document.getElementById('nlEmail').value;
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email})
+    });
+    if (res.ok) {
+      document.getElementById('nlForm').style.display = 'none';
+      document.getElementById('nlOk').style.display = 'block';
+    }
+  }
+
+  async function submitContact(e) {
+    e.preventDefault();
+    const data = {
+      name:    document.getElementById('cfName').value,
+      email:   document.getElementById('cfEmail').value,
+      message: document.getElementById('cfMsg').value,
+    };
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      document.getElementById('contactForm').reset();
+      const ok = document.getElementById('cfOk');
+      ok.style.display = 'block';
+      setTimeout(() => ok.style.display = 'none', 5000);
+    }
+  }
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, {threshold: 0.12});
+
+  document.querySelectorAll('.product-card, .why-card, .story-grid').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
