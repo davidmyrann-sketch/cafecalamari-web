@@ -85,9 +85,8 @@
     .hero { min-height: 92vh; display: flex; align-items: center;
             background: linear-gradient(135deg, var(--espresso) 0%, #4a2810 60%, #7a4020 100%);
             position: relative; overflow: hidden; }
-    .hero::before { content: '🐙'; position: absolute; right: -2%; top: 50%;
-      transform: translateY(-50%); font-size: min(45vw, 480px); opacity: .06;
-      pointer-events: none; user-select: none; }
+    .hero-logo-bg { position: absolute; right: -4%; top: 50%; transform: translateY(-50%);
+      width: min(52vw, 520px); opacity: .12; pointer-events: none; user-select: none; }
     .hero-content { position: relative; z-index: 1; max-width: 640px; }
     .hero .section-tag { color: var(--gold-lt); }
     .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--cream); line-height: 1.15;
@@ -118,7 +117,7 @@
     .story-img-inner { border-radius: var(--radius); overflow: hidden;
       aspect-ratio: 4/5; background: linear-gradient(160deg, #4a2810 0%, #8b4513 50%, #c8860a 100%);
       display: flex; align-items: center; justify-content: center; }
-    .story-img-inner .big-emoji { font-size: 8rem; opacity: .85; }
+    .story-img-inner img { width: 90%; height: 90%; object-fit: contain; }
     .story-badge { position: absolute; bottom: -16px; right: -16px;
       background: var(--espresso); color: var(--gold-lt); border-radius: 50%;
       width: 100px; height: 100px; display: flex; flex-direction: column; align-items: center;
@@ -170,6 +169,19 @@
     .shopify-note { color: rgba(253,246,238,.4); font-family: -apple-system, sans-serif;
       font-size: .78rem; text-align: center; margin-top: 32px; }
     .shopify-note a { color: var(--gold-lt); }
+
+    /* ── Grunnlegger ────────────────────────────────────────────────────── */
+    .founder { background: var(--espresso); }
+    .founder-grid { display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: center; }
+    .founder-photo { border-radius: var(--radius); overflow: hidden; box-shadow: 0 12px 48px rgba(0,0,0,.35); }
+    .founder-photo img { width: 100%; display: block; object-fit: cover; aspect-ratio: 3/4; }
+    .founder-text .section-tag { color: var(--gold-lt); }
+    .founder-text h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--cream); margin-bottom: 4px; }
+    .founder-text .location { color: var(--gold-lt); font-family: -apple-system, sans-serif;
+      font-size: .85rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 24px; }
+    .founder-text p { color: rgba(253,246,238,.75); font-size: 1.05rem; margin-bottom: 16px; line-height: 1.8; }
+    @media (max-width: 860px) { .founder-grid { grid-template-columns: 1fr; gap: 32px; }
+      .founder-photo { max-width: 280px; margin: 0 auto; } }
 
     /* ── Why ────────────────────────────────────────────────────────────── */
     .why { background: var(--warm); }
@@ -296,6 +308,7 @@
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
 <section class="hero">
+  <img src="/static/logo.jpg" alt="" class="hero-logo-bg">
   <div class="container">
     <div class="hero-content">
       <p class="section-tag">{{ t.hero_tag }}</p>
@@ -325,7 +338,7 @@
     <div class="story-grid">
       <div class="story-img">
         <div class="story-img-inner">
-          <span class="big-emoji">☕🐙</span>
+          <img src="/static/logo.jpg" alt="Café Calamarí logo">
         </div>
         <div class="story-badge sans">
           <span style="font-size:1.4rem">1700</span>
@@ -391,6 +404,42 @@
         Secure payment via Shopify. Delivery within 2–4 working days.
       {% endif %}
     </p>
+  </div>
+</section>
+
+<!-- ── Grunnlegger ────────────────────────────────────────────────────────────── -->
+<section class="founder">
+  <div class="container">
+    <div class="founder-grid">
+      <div class="founder-photo">
+        <img src="/static/patricia.png" alt="Patricia Elena Ramos Higuera">
+      </div>
+      <div class="founder-text">
+        <p class="section-tag">
+          {% if lang == 'no' %}Grunnlegger{% elif lang == 'es' %}Fundadora{% else %}Founder{% endif %}
+        </p>
+        <h2>Patricia Elena Ramos Higuera</h2>
+        <p class="location sans">Barranquilla, Colombia</p>
+        <p>
+          {% if lang == 'no' %}
+            Vi samarbeider tett med familiedrevne kaffegårder, der hver kaffebønne blir nøye utvalgt for å sikre spesialkaffe av høyeste kvalitet til ditt hjem.
+          {% elif lang == 'es' %}
+            Trabajamos estrechamente con fincas cafeteras familiares, donde cada grano de café es cuidadosamente seleccionado para garantizar un café especial de la más alta calidad para tu hogar.
+          {% else %}
+            We work closely with family-run coffee farms, where every bean is carefully selected to ensure the highest quality specialty coffee for your home.
+          {% endif %}
+        </p>
+        <p>
+          {% if lang == 'no' %}
+            Vår kaffe dyrkes i privilegerte områder, fra høydene i de colombianske Andesfjellene til Sierra Nevada de Santa Marta, hvor klima, jordsmonn og tradisjon forenes for å skape unike og minneverdige smaksprofiler.
+          {% elif lang == 'es' %}
+            Nuestro café se cultiva en zonas privilegiadas, desde las alturas de los Andes colombianos hasta la Sierra Nevada de Santa Marta, donde el clima, el suelo y la tradición se unen para crear perfiles de sabor únicos e inolvidables.
+          {% else %}
+            Our coffee is grown in privileged regions, from the heights of the Colombian Andes to the Sierra Nevada de Santa Marta, where climate, soil and tradition come together to create unique and unforgettable flavour profiles.
+          {% endif %}
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
