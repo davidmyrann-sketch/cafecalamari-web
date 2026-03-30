@@ -55,7 +55,7 @@
     .nav-inner { display: flex; align-items: center; justify-content: space-between;
                  padding: 0 24px; height: 64px; max-width: 1100px; margin: 0 auto; }
     .nav-logo { display: flex; align-items: center; gap: 10px; color: var(--cream); }
-    .nav-logo span.octopus { font-size: 1.6rem; }
+    .nav-logo img.nav-logo-img { height: 44px; width: auto; }
     .nav-logo span.name { font-size: 1.15rem; font-weight: 700; letter-spacing: .02em; }
     .nav-links { display: flex; align-items: center; gap: 28px; font-family: -apple-system, sans-serif;
                  font-size: .9rem; }
@@ -266,7 +266,7 @@
              font-family: -apple-system, sans-serif; font-size: .85rem; }
     .footer-inner { max-width: 1100px; margin: 0 auto; padding: 40px 24px 24px;
       display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
-    .footer-logo { font-size: 2rem; }
+    .footer-logo img { height: 64px; width: auto; opacity: .85; }
     .footer-links { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
     .footer-links a { color: rgba(253,246,238,.6); transition: color .2s; }
     .footer-links a:hover { color: var(--gold-lt); }
@@ -279,7 +279,7 @@
 <nav>
   <div class="nav-inner">
     <a href="/?lang={{ lang }}" class="nav-logo">
-      <span class="octopus">🐙</span>
+      <img src="/static/logo.png" alt="Café Calamarí" class="nav-logo-img">
       <span class="name">Café Calamarí</span>
     </a>
     <div class="nav-links sans">
@@ -308,7 +308,7 @@
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
 <section class="hero">
-  <img src="/static/logo.jpg" alt="" class="hero-logo-bg">
+  <img src="/static/logo.png" alt="" class="hero-logo-bg">
   <div class="container">
     <div class="hero-content">
       <p class="section-tag">{{ t.hero_tag }}</p>
@@ -338,7 +338,7 @@
     <div class="story-grid">
       <div class="story-img">
         <div class="story-img-inner">
-          <img src="/static/logo.jpg" alt="Café Calamarí logo">
+          <img src="/static/logo.png" alt="Café Calamarí logo">
         </div>
         <div class="story-badge sans">
           <span style="font-size:1.4rem">1700</span>
@@ -487,7 +487,7 @@
     -->
     <div class="ig-grid">
       <div class="ig-tile">☕</div>
-      <div class="ig-tile">🐙</div>
+      <div class="ig-tile">☕</div>
       <div class="ig-tile">🌿</div>
       <div class="ig-tile">🫘</div>
       <div class="ig-tile">⛰️</div>
@@ -548,7 +548,7 @@
 <!-- ── Footer ─────────────────────────────────────────────────────────────────── -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-logo">🐙</div>
+    <div class="footer-logo"><img src="/static/logo.png" alt="Café Calamarí"></div>
     <div class="footer-links sans">
       <a href="#butikk">{{ t.footer_shop }}</a>
       <a href="https://www.instagram.com/cafecalamari.no/" target="_blank">{{ t.footer_ig }}</a>
