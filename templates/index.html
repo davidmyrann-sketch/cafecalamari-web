@@ -350,7 +350,9 @@
     <p class="section-tag">{{ t.shop_tag }}</p>
     <h2>{{ t.shop_h2 }}</h2>
     <p class="shop-sub sans">{{ t.shop_sub }}</p>
-    <p class="fomo-bar sans">{{ t.shop_fomo }}</p>
+    <p class="fomo-bar sans">
+      {% if lang == 'no' %}🚀 Nettbutikken åpner snart — meld deg på under og få 10% på første ordre{% elif lang == 'es' %}🚀 La tienda abre pronto — suscríbete abajo y recibe 10% en tu primer pedido{% else %}🚀 Shop opening soon — sign up below and get 10% off your first order{% endif %}
+    </p>
 
     <div class="products-grid">
 
@@ -369,13 +371,9 @@
           </div>
           <!-- SHOPIFY BUY BUTTON — lim inn embed-kode her fra Shopify admin → Buy Button -->
           <div class="shopify-buy-btn-wrap" id="shopify-product-1">
-            {% if shopify_url %}
-            <!-- Shopify Buy Button embed-kode for Espresso -->
-            {% else %}
-            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
-              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            <a href="#nyhetsbrev" class="btn-buy">
+              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
             </a>
-            {% endif %}
           </div>
         </div>
       </div>
@@ -394,8 +392,8 @@
             <div class="product-price sans">269 kr</div>
           </div>
           <div class="shopify-buy-btn-wrap" id="shopify-product-2">
-            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
-              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            <a href="#nyhetsbrev" class="btn-buy">
+              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
             </a>
           </div>
         </div>
@@ -417,8 +415,8 @@
             </div>
           </div>
           <div class="shopify-buy-btn-wrap" id="shopify-product-3">
-            <a href="https://{{ shopify_url or 'cafecalamari.myshopify.com' }}" target="_blank" class="btn-buy">
-              {% if lang == 'no' %}Kjøp nå{% elif lang == 'es' %}Comprar{% else %}Buy now{% endif %}
+            <a href="#nyhetsbrev" class="btn-buy">
+              {% if lang == 'no' %}Varsle meg når den er klar →{% elif lang == 'es' %}Avísame cuando esté listo →{% else %}Notify me when ready →{% endif %}
             </a>
           </div>
         </div>
@@ -428,11 +426,11 @@
 
     <p class="shopify-note sans" style="margin-top:32px;">
       {% if lang == 'no' %}
-        Sikker betaling via Shopify. Levering 2–4 virkedager.
+        Produktene våre er under oppsett. Meld deg på nyhetsbrevet for å bli varslet når butikken åpner.
       {% elif lang == 'es' %}
-        Pago seguro a través de Shopify. Entrega en 2–4 días laborables.
+        Nuestros productos están en configuración. Suscríbete para ser notificado cuando la tienda abra.
       {% else %}
-        Secure payment via Shopify. Delivery within 2–4 working days.
+        Our products are being set up. Sign up to be notified when the shop opens.
       {% endif %}
     </p>
   </div>
