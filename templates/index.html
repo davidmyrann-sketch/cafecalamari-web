@@ -480,18 +480,9 @@
     <h2>{{ t.social_h2 }}</h2>
     <p class="social-sub sans">{{ t.social_sub }}</p>
 
-    <!--
-      INSTAGRAM-FEED: Bytt ut .ig-grid med embed-kode fra
-      snapwidget.com, lightwidget.com eller elfsight.com
-      (koble til @cafecalamari.no)
-    -->
-    <div class="ig-grid">
-      <div class="ig-tile">☕</div>
-      <div class="ig-tile">☕</div>
-      <div class="ig-tile">🌿</div>
-      <div class="ig-tile">🫘</div>
-      <div class="ig-tile">⛰️</div>
-      <div class="ig-tile">☕</div>
+    <div style="max-width:720px;margin:0 auto 32px;">
+      <script src="https://cdn.jsdelivr.net/npm/@mirrorapp/iframe-bridge@latest/dist/index.umd.js"></script>
+      <iframe onload="iFrameSetup(this)" src="https://app.mirror-app.com/feed-instagram/6663a284-e944-445b-8656-d79d2d1165c5/preview" style="width:100%;border:none;overflow:hidden;" scrolling="no"></iframe>
     </div>
 
     <a href="https://www.instagram.com/cafecalamari.no/" target="_blank" rel="noopener" class="btn-ig sans">
