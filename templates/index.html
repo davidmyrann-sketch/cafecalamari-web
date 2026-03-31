@@ -7,19 +7,7 @@
   <meta name="description" content="Direktehandel single origin kaffe fra Santa Bárbara, Colombia. Håndplukket på 1 700 moh. Ferskt ristet i Oslo.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐙</text></svg>">
 
-  <!-- Shopify Buy Button SDK — aktiveres når SHOPIFY_STORE_URL er satt -->
-  {% if shopify_url %}
-  <script type="text/javascript">
-    (function () { var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-    if (window.ShopifyBuy) { if (window.ShopifyBuy.UI) { ShopifyBuyInit(); } else { loadScript(); } }
-    else { loadScript(); }
-    function loadScript() { var script = document.createElement('script'); script.async = true;
-    script.src = scriptURL; (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-    script.onload = ShopifyBuyInit; }
-    function ShopifyBuyInit() { /* Kjøpknapper initialiseres per produkt-div nedenfor */ }
-    })();
-  </script>
-  {% endif %}
+  <script src="https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js"></script>
 
   <style>
     /* ── Reset & Base ────────────────────────────────────────────────────── */
@@ -384,10 +372,9 @@
             <div class="product-price sans">799 kr</div>
           </div>
           <div class="shopify-buy-btn-wrap">
-            <a href="https://cafecalamari.myshopify.com/products/santa-barbara-coffee-hele-bonner-500g"
-               target="_blank" class="btn-buy">
-              {% if lang == 'no' %}Kjøp nå →{% elif lang == 'es' %}Comprar ahora →{% else %}Buy now →{% endif %}
-            </a>
+            <button id="add-to-cart-btn" class="btn-buy" onclick="addToCart()">
+              {% if lang == 'no' %}Legg i handlekurv →{% elif lang == 'es' %}Agregar al carrito →{% else %}Add to cart →{% endif %}
+            </button>
           </div>
         </div>
       </div>
@@ -551,8 +538,84 @@
   </div>
 </footer>
 
+<!-- ── Shopify Cart Drawer ────────────────────────────────────────────────────── -->
+<div id="cart-overlay" onclick="closeCart()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:998;"></div>
+<div id="cart-drawer" style="display:none;position:fixed;top:0;right:0;width:360px;max-width:100vw;height:100%;background:#fdf6ee;z-index:999;box-shadow:-4px 0 32px rgba(0,0,0,.2);flex-direction:column;">
+  <div style="padding:24px 20px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e8d8c0;">
+    <span style="font-family:-apple-system,sans-serif;font-weight:700;font-size:1.1rem;color:#2b1a0e;">🛒
+      {% if lang == 'no' %}Handlekurv{% elif lang == 'es' %}Carrito{% else %}Cart{% endif %}
+    </span>
+    <button onclick="closeCart()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#6b3a1f;">✕</button>
+  </div>
+  <div style="padding:20px;flex:1;overflow-y:auto;">
+    <div style="display:flex;gap:16px;align-items:center;background:#fff;border-radius:10px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+      <img src="/static/product.webp" alt="" style="width:72px;height:72px;object-fit:cover;border-radius:8px;">
+      <div style="flex:1;">
+        <div style="font-family:-apple-system,sans-serif;font-weight:700;font-size:.9rem;color:#2b1a0e;">Santa Bárbara Coffee</div>
+        <div style="font-family:-apple-system,sans-serif;font-size:.8rem;color:#7a6050;">Hele Bønner 500g</div>
+        <div style="font-family:-apple-system,sans-serif;font-weight:700;font-size:1rem;color:#c8860a;margin-top:4px;">799 kr</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:16px 20px 28px;border-top:1px solid #e8d8c0;">
+    <div style="display:flex;justify-content:space-between;font-family:-apple-system,sans-serif;font-weight:700;font-size:1rem;color:#2b1a0e;margin-bottom:16px;">
+      <span>{% if lang == 'no' %}Total{% elif lang == 'es' %}Total{% else %}Total{% endif %}</span>
+      <span>799 kr</span>
+    </div>
+    <button id="checkout-btn" onclick="goToCheckout()" style="width:100%;background:#2b1a0e;color:#fdf6ee;font-family:-apple-system,sans-serif;font-weight:700;font-size:1rem;padding:15px;border-radius:999px;border:none;cursor:pointer;transition:background .2s;">
+      {% if lang == 'no' %}Gå til betaling →{% elif lang == 'es' %}Ir al pago →{% else %}Go to checkout →{% endif %}
+    </button>
+    <p style="text-align:center;font-family:-apple-system,sans-serif;font-size:.75rem;color:#7a6050;margin-top:12px;">
+      🔒 {% if lang == 'no' %}Sikker betaling via Shopify{% elif lang == 'es' %}Pago seguro via Shopify{% else %}Secure payment via Shopify{% endif %}
+    </p>
+  </div>
+</div>
+
 <!-- ── JS ──────────────────────────────────────────────────────────────────────── -->
 <script>
+  // ── Shopify cart ──────────────────────────────────────────────────────────
+  const SHOPIFY_DOMAIN  = 'cafecalamari.myshopify.com';
+  const SHOPIFY_TOKEN   = 'fd2ed7ad186e4f1748a6cc2584ef86a6';
+  const VARIANT_ID      = 'gid://shopify/ProductVariant/48257133740282';
+  let checkoutUrl       = null;
+
+  const client = ShopifyBuy.buildClient({
+    domain: SHOPIFY_DOMAIN,
+    storefrontAccessToken: SHOPIFY_TOKEN
+  });
+
+  async function addToCart() {
+    const btn = document.getElementById('add-to-cart-btn');
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      const checkout = await client.checkout.create();
+      await client.checkout.addLineItems(checkout.id, [{ variantId: VARIANT_ID, quantity: 1 }]);
+      checkoutUrl = checkout.webUrl;
+      openCart();
+    } catch(e) {
+      console.error(e);
+      btn.disabled = false;
+      btn.textContent = 'Legg i handlekurv →';
+    }
+  }
+
+  function openCart() {
+    document.getElementById('cart-drawer').style.display  = 'flex';
+    document.getElementById('cart-overlay').style.display = 'block';
+    document.getElementById('add-to-cart-btn').disabled   = false;
+    document.getElementById('add-to-cart-btn').textContent = '✓ Lagt til';
+  }
+
+  function closeCart() {
+    document.getElementById('cart-drawer').style.display  = 'none';
+    document.getElementById('cart-overlay').style.display = 'none';
+  }
+
+  function goToCheckout() {
+    if (checkoutUrl) window.location.href = checkoutUrl;
+  }
+
   function toggleNav() {
     document.getElementById('navMobile').classList.toggle('open');
   }
