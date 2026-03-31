@@ -3,7 +3,7 @@
 Café Calamarí — cafecalamari.cafe
 Flask + Railway + GitHub (standard stack)
 """
-import os, threading, json, urllib.request
+import os, threading, json, urllib.request, urllib.error
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
@@ -250,6 +250,8 @@ def send_email_async(subject, body):
             )
             with urllib.request.urlopen(req, timeout=10) as r:
                 print(f"Resend OK: {r.read().decode()}")
+        except urllib.error.HTTPError as e:
+            print(f"Resend feil {e.code}: {e.read().decode()}")
         except Exception as e:
             print(f"Resend feil: {e}")
     threading.Thread(target=_send, daemon=True).start()
