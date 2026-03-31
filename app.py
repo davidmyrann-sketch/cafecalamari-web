@@ -12,7 +12,7 @@ app = Flask(__name__)
 # ── Config ────────────────────────────────────────────────────────────────────
 SMTP_USER = os.environ.get("SMTP_USER", "hola@cafecalamari.cafe")
 SMTP_PASS = os.environ.get("SMTP_PASS", "")
-SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.domeneshop.no")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
 EMAIL_TO  = "hola@cafecalamari.cafe"
 
