@@ -386,7 +386,7 @@
     <h2>{{ t.shop_h2 }}</h2>
     <p class="shop-sub sans">{{ t.shop_sub }}</p>
     <p class="fomo-bar sans">🔥
-      {% if lang == 'no' %}Begrenset parti — ny høst, kun mens lageret rekker{% elif lang == 'es' %}Lote limitado — nueva cosecha, solo mientras dure el stock{% else %}Limited batch — new harvest, only while stocks last{% endif %}
+      {% if lang == 'no' %}Begrenset parti{% elif lang == 'es' %}Lote limitado{% else %}Limited batch{% endif %}
     </p>
 
     <div class="products-grid" style="max-width:380px;">
@@ -395,9 +395,6 @@
       <div class="product-card">
         <div class="product-img" style="background:none;">
           <img src="/static/product.webp" alt="Santa Bárbara Coffee" style="width:100%;height:100%;object-fit:cover;">
-          <div class="urgency-badge">
-            {% if lang == 'no' %}Ristes tirsdag{% elif lang == 'es' %}Tostado el martes{% else %}Roasted Tuesday{% endif %}
-          </div>
         </div>
         <div class="product-body">
           <div class="stars-row">
