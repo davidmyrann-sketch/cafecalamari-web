@@ -30,7 +30,7 @@ T = {
         "trust_1":       "Direktehandel med familiebonde",
         "trust_2":       "1 700 moh. — single origin",
         "trust_3":       "Ferskt ristet — ukentlig",
-        "trust_4":       "Gratis frakt over 399 kr",
+        "trust_4":       "Gratis frakt over 799 kr",
 
         "story_tag":     "Historien bak koppen",
         "story_h2":      "Vi strakk tentaklene til Colombia. Og ble forelsket.",
@@ -86,7 +86,7 @@ T = {
         "trust_1":       "Comercio directo con familia cafetera",
         "trust_2":       "1 700 msnm — single origin",
         "trust_3":       "Tostado fresco — cada semana",
-        "trust_4":       "Envío gratis desde 399 kr",
+        "trust_4":       "Envío gratis desde 799 kr",
 
         "story_tag":     "La historia detrás de la taza",
         "story_h2":      "Extendimos los tentáculos hasta Colombia. Y nos enamoramos.",
@@ -142,7 +142,7 @@ T = {
         "trust_1":       "Direct trade with family farm",
         "trust_2":       "1,700 masl — single origin",
         "trust_3":       "Freshly roasted — weekly",
-        "trust_4":       "Free shipping over 399 kr",
+        "trust_4":       "Free shipping over 799 kr",
 
         "story_tag":     "The story behind the cup",
         "story_h2":      "We reached our tentacles to Colombia. And fell in love.",
