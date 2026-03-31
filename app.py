@@ -11,7 +11,7 @@ app = Flask(__name__)
 # ── Config ────────────────────────────────────────────────────────────────────
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "re_MU4N547z_Q2rtKSB8MZJ4JojGdhAgJ2bk")
 EMAIL_FROM     = os.environ.get("EMAIL_FROM", "onboarding@resend.dev")
-EMAIL_TO       = "hola@cafecalamari.cafe"
+EMAIL_TO       = os.environ.get("EMAIL_TO", "master@goldenbusinessadvice.com")
 
 # Shopify Buy Button — lim inn embed-kode fra Shopify admin → Sales Channels → Buy Button
 # Sett SHOPIFY_STORE_URL til f.eks. "cafecalamari.myshopify.com"
