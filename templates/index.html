@@ -208,54 +208,9 @@
       padding: 13px 28px; border-radius: 999px; font-size: .95rem; transition: opacity .2s; }
     .btn-ig:hover { opacity: .9; }
 
-    /* ── Newsletter ─────────────────────────────────────────────────────── */
-    .newsletter { background: var(--espresso); text-align: center; padding: 80px 0; }
-    .newsletter .section-tag { color: var(--gold-lt); }
-    .newsletter h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); color: var(--cream);
-      margin-bottom: 12px; }
-    .newsletter p  { color: rgba(253,246,238,.65); font-family: -apple-system, sans-serif;
-      font-size: 1rem; margin-bottom: 32px; max-width: 520px; margin-left: auto; margin-right: auto; }
-    .nl-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;
-               justify-content: center; }
-    .nl-form input { flex: 1; min-width: 220px; padding: 14px 20px; border-radius: 999px;
-      border: none; background: rgba(255,255,255,.1); color: var(--cream);
-      font-family: -apple-system, sans-serif; font-size: .95rem; outline: none;
-      border: 1px solid rgba(255,255,255,.15); }
-    .nl-form input::placeholder { color: rgba(255,255,255,.35); }
-    .nl-form input:focus { border-color: var(--gold); }
-    .nl-form button { background: var(--gold); color: var(--espresso);
-      font-family: -apple-system, sans-serif; font-weight: 700; font-size: .95rem;
-      padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer;
-      transition: background .2s; white-space: nowrap; }
-    .nl-form button:hover { background: var(--gold-lt); }
-    .nl-ok { display: none; color: var(--gold-lt); font-family: -apple-system, sans-serif;
-      font-size: 1rem; margin-top: 16px; }
-
     /* ── Contact ────────────────────────────────────────────────────────── */
-    .contact { background: var(--warm); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-    .contact h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--espresso); margin-bottom: 20px; }
-    .contact-info p { color: var(--muted); font-family: -apple-system, sans-serif;
-      font-size: 1rem; margin-bottom: 12px; }
-    .contact-info a { color: var(--brown); font-weight: 600; }
-    .contact-info a:hover { color: var(--gold); }
-    .cf label { display: block; font-family: -apple-system, sans-serif; font-size: .85rem;
-      font-weight: 600; color: var(--brown); margin-bottom: 6px; letter-spacing: .04em;
-      text-transform: uppercase; }
-    .cf input, .cf textarea { width: 100%; padding: 12px 16px; border-radius: 8px;
-      border: 1px solid rgba(107,58,31,.2); background: var(--white);
-      font-family: -apple-system, sans-serif; font-size: .95rem; color: var(--text);
-      margin-bottom: 16px; outline: none; transition: border .2s; }
-    .cf input:focus, .cf textarea:focus { border-color: var(--gold); }
-    .cf textarea { min-height: 120px; resize: vertical; }
-    .cf button { background: var(--espresso); color: var(--cream);
-      font-family: -apple-system, sans-serif; font-weight: 700; font-size: .95rem;
-      padding: 14px 32px; border-radius: 999px; border: none; cursor: pointer;
-      transition: background .2s; }
-    .cf button:hover { background: var(--brown); }
-    .cf-ok { display: none; color: var(--brown); font-family: -apple-system, sans-serif;
-      font-size: .95rem; margin-top: 12px; font-weight: 600; }
-    @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } }
+    .contact { background: var(--warm); text-align: center; }
+    .contact h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--espresso); margin-bottom: 12px; }
 
     /* ── Footer ─────────────────────────────────────────────────────────── */
     footer { background: var(--espresso); color: rgba(253,246,238,.6);
@@ -493,48 +448,14 @@
   </div>
 </section>
 
-<!-- ── Nyhetsbrev ──────────────────────────────────────────────────────────────── -->
-<section class="newsletter" id="nyhetsbrev">
-  <div class="container">
-    <p class="section-tag">{{ t.newsletter_tag }}</p>
-    <h2>{{ t.newsletter_h2 }}</h2>
-    <p>{{ t.newsletter_sub }}</p>
-    <form class="nl-form sans" id="nlForm" onsubmit="submitNewsletter(event)">
-      <input type="email" id="nlEmail" placeholder="{{ t.newsletter_ph }}" required>
-      <button type="submit">{{ t.newsletter_btn }}</button>
-    </form>
-    <p class="nl-ok" id="nlOk">{{ t.newsletter_ok }}</p>
-  </div>
-</section>
-
 <!-- ── Kontakt ────────────────────────────────────────────────────────────────── -->
 <section class="contact" id="kontakt">
-  <div class="container">
-    <div class="contact-grid">
-      <div class="contact-info">
-        <p class="section-tag">{{ t.contact_tag }}</p>
-        <h2>{{ t.contact_h2 }}</h2>
-        <p>📧 <a href="mailto:hola@cafecalamari.cafe">hola@cafecalamari.cafe</a></p>
-        <p>📸 <a href="https://www.instagram.com/cafecalamari.no/" target="_blank">@cafecalamari.no</a></p>
-        <p>🌐 cafecalamari.cafe</p>
-      </div>
-      <form class="cf" id="contactForm" onsubmit="submitContact(event)">
-        <div>
-          <label>{{ t.contact_name }}</label>
-          <input type="text"  id="cfName"  required>
-        </div>
-        <div>
-          <label>{{ t.contact_email }}</label>
-          <input type="email" id="cfEmail" required>
-        </div>
-        <div>
-          <label>{{ t.contact_msg }}</label>
-          <textarea id="cfMsg" required></textarea>
-        </div>
-        <button type="submit">{{ t.contact_btn }}</button>
-        <p class="cf-ok" id="cfOk">{{ t.contact_ok }}</p>
-      </form>
-    </div>
+  <div class="container" style="text-align:center;">
+    <p class="section-tag">{{ t.contact_tag }}</p>
+    <h2>{{ t.contact_h2 }}</h2>
+    <p style="font-family:-apple-system,sans-serif;color:var(--muted);font-size:1rem;margin:16px auto 32px;max-width:480px;">{{ t.contact_sub }}</p>
+    <a href="mailto:hola@cafecalamari.cafe" class="btn-primary">{{ t.contact_btn }}</a>
+    <p style="font-family:-apple-system,sans-serif;font-size:.85rem;color:var(--muted);margin-top:20px;">📸 <a href="https://www.instagram.com/cafecalamari.no/" target="_blank" style="color:var(--brown);font-weight:600;">@cafecalamari.no</a></p>
   </div>
 </section>
 
@@ -675,48 +596,6 @@
 
   function toggleNav() {
     document.getElementById('navMobile').classList.toggle('open');
-  }
-
-  async function submitNewsletter(e) {
-    e.preventDefault();
-    const btn = e.submitter || e.target.querySelector('button');
-    const orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = '…';
-    try {
-      await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({email: document.getElementById('nlEmail').value})
-      });
-    } catch(err) {}
-    document.getElementById('nlForm').style.display = 'none';
-    document.getElementById('nlOk').style.display = 'block';
-  }
-
-  async function submitContact(e) {
-    e.preventDefault();
-    const btn = e.submitter || e.target.querySelector('button[type="submit"]');
-    const orig = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = '…';
-    try {
-      await fetch('/api/contact', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          name:    document.getElementById('cfName').value,
-          email:   document.getElementById('cfEmail').value,
-          message: document.getElementById('cfMsg').value,
-        })
-      });
-    } catch(err) {}
-    document.getElementById('contactForm').reset();
-    btn.disabled = false;
-    btn.textContent = orig;
-    const ok = document.getElementById('cfOk');
-    ok.style.display = 'block';
-    setTimeout(() => ok.style.display = 'none', 5000);
   }
 
   // Fade-in on scroll

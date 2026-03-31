@@ -3,18 +3,12 @@
 Café Calamarí — cafecalamari.cafe
 Flask + Railway + GitHub (standard stack)
 """
-import os, threading, json, urllib.request, urllib.error
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+import os
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 # ── Config ────────────────────────────────────────────────────────────────────
-RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "re_MU4N547z_Q2rtKSB8MZJ4JojGdhAgJ2bk")
-EMAIL_FROM     = os.environ.get("EMAIL_FROM", "onboarding@resend.dev")
-EMAIL_TO       = os.environ.get("EMAIL_TO", "master@goldenbusinessadvice.com")
-
-# Shopify Buy Button — lim inn embed-kode fra Shopify admin → Sales Channels → Buy Button
-# Sett SHOPIFY_STORE_URL til f.eks. "cafecalamari.myshopify.com"
 SHOPIFY_STORE_URL = os.environ.get("SHOPIFY_STORE_URL", "")
 
 # ── Oversettelser ──────────────────────────────────────────────────────────────
@@ -65,20 +59,10 @@ T = {
         "social_sub":    "Se bak kulissene — fra gård til kopp.",
         "social_cta":    "Følg @cafecalamari.no →",
 
-        "newsletter_tag": "Bli en del av familien",
-        "newsletter_h2":  "Hold deg oppdatert",
-        "newsletter_sub": "Meld deg på og få tips om nye partier og eksklusivt innhold rett i innboksen.",
-        "newsletter_ph":  "Din e-postadresse",
-        "newsletter_btn": "Meld meg på →",
-        "newsletter_ok":  "Takk! Sjekk innboksen din.",
-
         "contact_tag":   "Kontakt",
         "contact_h2":    "Hola! Vi hører fra deg.",
-        "contact_name":  "Navn",
-        "contact_email": "E-post",
-        "contact_msg":   "Melding",
-        "contact_btn":   "Send melding →",
-        "contact_ok":    "Takk! Vi svarer innen 24 timer.",
+        "contact_sub":   "Send oss en e-post — vi svarer innen 24 timer.",
+        "contact_btn":   "Send oss en e-post →",
 
         "footer_copy":   "© 2026 Café Calamarí. Laget med ☕ i Oslo.",
         "footer_ig":     "Instagram",
@@ -131,20 +115,10 @@ T = {
         "social_sub":    "Mira detrás de cámaras — de la finca a la taza.",
         "social_cta":    "Seguir @cafecalamari.no →",
 
-        "newsletter_tag": "Únete a la familia",
-        "newsletter_h2":  "Mantente informado",
-        "newsletter_sub": "Suscríbete y recibe novedades de nuevos lotes y contenido exclusivo.",
-        "newsletter_ph":  "Tu correo electrónico",
-        "newsletter_btn": "Suscribirme →",
-        "newsletter_ok":  "¡Gracias! Revisa tu bandeja de entrada.",
-
         "contact_tag":   "Contacto",
         "contact_h2":    "¡Hola! Te escuchamos.",
-        "contact_name":  "Nombre",
-        "contact_email": "Correo",
-        "contact_msg":   "Mensaje",
-        "contact_btn":   "Enviar mensaje →",
-        "contact_ok":    "¡Gracias! Respondemos en 24 horas.",
+        "contact_sub":   "Escríbenos — respondemos en 24 horas.",
+        "contact_btn":   "Envíanos un correo →",
 
         "footer_copy":   "© 2026 Café Calamarí. Hecho con ☕ en Oslo.",
         "footer_ig":     "Instagram",
@@ -197,20 +171,10 @@ T = {
         "social_sub":    "See behind the scenes — from farm to cup.",
         "social_cta":    "Follow @cafecalamari.no →",
 
-        "newsletter_tag": "Join the family",
-        "newsletter_h2":  "Stay in the loop",
-        "newsletter_sub": "Sign up and get news about new batches and exclusive content straight to your inbox.",
-        "newsletter_ph":  "Your email address",
-        "newsletter_btn": "Sign me up →",
-        "newsletter_ok":  "Thank you! Check your inbox.",
-
         "contact_tag":   "Contact",
         "contact_h2":    "Hola! We'd love to hear from you.",
-        "contact_name":  "Name",
-        "contact_email": "Email",
-        "contact_msg":   "Message",
-        "contact_btn":   "Send message →",
-        "contact_ok":    "Thank you! We'll reply within 24 hours.",
+        "contact_sub":   "Drop us an email — we reply within 24 hours.",
+        "contact_btn":   "Send us an email →",
 
         "footer_copy":   "© 2026 Café Calamarí. Made with ☕ in Oslo.",
         "footer_ig":     "Instagram",
@@ -230,56 +194,6 @@ def index():
     return render_template("index.html", t=T[lang], lang=lang,
                            shopify_url=SHOPIFY_STORE_URL)
 
-def send_email_async(subject, body):
-    def _send():
-        try:
-            payload = json.dumps({
-                "from":    EMAIL_FROM,
-                "to":      [EMAIL_TO],
-                "subject": subject,
-                "text":    body
-            }).encode()
-            req = urllib.request.Request(
-                "https://api.resend.com/emails",
-                data=payload,
-                headers={
-                    "Authorization": f"Bearer {RESEND_API_KEY}",
-                    "Content-Type":  "application/json"
-                },
-                method="POST"
-            )
-            with urllib.request.urlopen(req, timeout=10) as r:
-                print(f"Resend OK: {r.read().decode()}")
-        except urllib.error.HTTPError as e:
-            print(f"Resend feil {e.code}: {e.read().decode()}")
-        except Exception as e:
-            print(f"Resend feil: {e}")
-    threading.Thread(target=_send, daemon=True).start()
-
-@app.route("/api/newsletter", methods=["POST"])
-def newsletter():
-    email = (request.json or {}).get("email", "").strip()
-    if not email or "@" not in email:
-        return jsonify({"ok": False}), 400
-    send_email_async(
-        f"Nyhetsbrev-påmelding: {email}",
-        f"Ny påmelding på nyhetsbrevet:\n\n{email}"
-    )
-    return jsonify({"ok": True})
-
-@app.route("/api/contact", methods=["POST"])
-def contact():
-    data  = request.json or {}
-    name  = data.get("name", "").strip()
-    email = data.get("email", "").strip()
-    msg   = data.get("message", "").strip()
-    if not name or not email or not msg:
-        return jsonify({"ok": False}), 400
-    send_email_async(
-        f"Ny melding fra cafecalamari.cafe — {name}",
-        f"Navn: {name}\nE-post: {email}\n\nMelding:\n{msg}"
-    )
-    return jsonify({"ok": True})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
