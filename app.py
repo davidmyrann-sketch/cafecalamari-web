@@ -3,18 +3,15 @@
 Café Calamarí — cafecalamari.cafe
 Flask + Railway + GitHub (standard stack)
 """
-import os, smtplib, threading
+import os, threading, json, urllib.request
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from email.mime.text import MIMEText
 
 app = Flask(__name__)
 
 # ── Config ────────────────────────────────────────────────────────────────────
-SMTP_USER = os.environ.get("SMTP_USER", "hola@cafecalamari.cafe")
-SMTP_PASS = os.environ.get("SMTP_PASS", "")
-SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.domeneshop.no")
-SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-EMAIL_TO  = "hola@cafecalamari.cafe"
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "re_MU4N547z_Q2rtKSB8MZJ4JojGdhAgJ2bk")
+EMAIL_FROM     = "hola@cafecalamari.cafe"
+EMAIL_TO       = "hola@cafecalamari.cafe"
 
 # Shopify Buy Button — lim inn embed-kode fra Shopify admin → Sales Channels → Buy Button
 # Sett SHOPIFY_STORE_URL til f.eks. "cafecalamari.myshopify.com"
@@ -236,19 +233,25 @@ def index():
 def send_email_async(subject, body):
     def _send():
         try:
-            msg = MIMEText(body, "plain", "utf-8")
-            msg["Subject"] = subject
-            msg["From"]    = SMTP_USER
-            msg["To"]      = EMAIL_TO
-            print(f"SMTP: kobler til {SMTP_HOST}:{SMTP_PORT} som {SMTP_USER}")
-            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as s:
-                s.ehlo()
-                s.starttls()
-                s.login(SMTP_USER, SMTP_PASS)
-                s.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
-            print(f"SMTP: sendt OK til {EMAIL_TO}")
+            payload = json.dumps({
+                "from":    EMAIL_FROM,
+                "to":      [EMAIL_TO],
+                "subject": subject,
+                "text":    body
+            }).encode()
+            req = urllib.request.Request(
+                "https://api.resend.com/emails",
+                data=payload,
+                headers={
+                    "Authorization": f"Bearer {RESEND_API_KEY}",
+                    "Content-Type":  "application/json"
+                },
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=10) as r:
+                print(f"Resend OK: {r.read().decode()}")
         except Exception as e:
-            print(f"SMTP feil: {e}")
+            print(f"Resend feil: {e}")
     threading.Thread(target=_send, daemon=True).start()
 
 @app.route("/api/newsletter", methods=["POST"])
