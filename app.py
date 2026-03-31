@@ -3,7 +3,7 @@
 Café Calamarí — cafecalamari.cafe
 Flask + Railway + GitHub (standard stack)
 """
-import os, smtplib
+import os, smtplib, threading
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from email.mime.text import MIMEText
 
@@ -233,23 +233,33 @@ def index():
     return render_template("index.html", t=T[lang], lang=lang,
                            shopify_url=SHOPIFY_STORE_URL)
 
+def send_email_async(subject, body):
+    def _send():
+        try:
+            msg = MIMEText(body, "plain", "utf-8")
+            msg["Subject"] = subject
+            msg["From"]    = SMTP_USER
+            msg["To"]      = EMAIL_TO
+            print(f"SMTP: kobler til {SMTP_HOST}:{SMTP_PORT} som {SMTP_USER}")
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as s:
+                s.ehlo()
+                s.starttls()
+                s.login(SMTP_USER, SMTP_PASS)
+                s.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
+            print(f"SMTP: sendt OK til {EMAIL_TO}")
+        except Exception as e:
+            print(f"SMTP feil: {e}")
+    threading.Thread(target=_send, daemon=True).start()
+
 @app.route("/api/newsletter", methods=["POST"])
 def newsletter():
-    email = request.json.get("email", "").strip()
+    email = (request.json or {}).get("email", "").strip()
     if not email or "@" not in email:
         return jsonify({"ok": False}), 400
-    try:
-        body = f"Ny nyhetsbrev-påmelding:\n{email}"
-        msg = MIMEText(body)
-        msg["Subject"] = f"Ny påmelding: {email}"
-        msg["From"]    = SMTP_USER
-        msg["To"]      = EMAIL_TO
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=8) as s:
-            s.ehlo(); s.starttls()
-            s.login(SMTP_USER, SMTP_PASS)
-            s.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
-    except Exception as e:
-        print(f"Newsletter email feil: {e}")
+    send_email_async(
+        f"Nyhetsbrev-påmelding: {email}",
+        f"Ny påmelding på nyhetsbrevet:\n\n{email}"
+    )
     return jsonify({"ok": True})
 
 @app.route("/api/contact", methods=["POST"])
@@ -260,18 +270,10 @@ def contact():
     msg   = data.get("message", "").strip()
     if not name or not email or not msg:
         return jsonify({"ok": False}), 400
-    try:
-        body = f"Navn: {name}\nE-post: {email}\n\nMelding:\n{msg}"
-        m = MIMEText(body)
-        m["Subject"] = f"Ny melding fra cafecalamari.cafe — {name}"
-        m["From"]    = SMTP_USER
-        m["To"]      = EMAIL_TO
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=8) as s:
-            s.ehlo(); s.starttls()
-            s.login(SMTP_USER, SMTP_PASS)
-            s.sendmail(SMTP_USER, EMAIL_TO, m.as_string())
-    except Exception as e:
-        print(f"Contact email feil: {e}")
+    send_email_async(
+        f"Ny melding fra cafecalamari.cafe — {name}",
+        f"Navn: {name}\nE-post: {email}\n\nMelding:\n{msg}"
+    )
     return jsonify({"ok": True})
 
 if __name__ == "__main__":
