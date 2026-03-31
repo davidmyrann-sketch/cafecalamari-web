@@ -59,6 +59,13 @@
       background: rgba(255,255,255,.1); }
     .nav-hamburger { display: none; background: none; border: none; cursor: pointer;
                      color: var(--cream); font-size: 1.5rem; }
+    .cart-btn { position: relative; background: none; border: none; cursor: pointer;
+      color: var(--cream); font-size: 1.4rem; padding: 4px 8px; transition: color .2s; }
+    .cart-btn:hover { color: var(--gold-lt); }
+    .cart-count { position: absolute; top: -2px; right: 0; background: var(--gold);
+      color: var(--espresso); font-family: -apple-system, sans-serif; font-size: .65rem;
+      font-weight: 700; width: 17px; height: 17px; border-radius: 50%;
+      display: none; align-items: center; justify-content: center; }
     .nav-mobile { display: none; flex-direction: column; padding: 16px 24px 20px;
                   background: var(--espresso); gap: 16px; }
     .nav-mobile.open { display: flex; }
@@ -279,9 +286,17 @@
         <a href="/?lang=es" class="{{ 'active' if lang=='es' }}">ES</a>
         <a href="/?lang=en" class="{{ 'active' if lang=='en' }}">EN</a>
       </div>
+      <button class="cart-btn" onclick="openCart()" aria-label="Handlekurv">
+        🛒<span class="cart-count" id="cartCount">0</span>
+      </button>
       <a href="#butikk" class="nav-cta">{{ t.nav_cta }}</a>
     </div>
-    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">☰</button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="cart-btn" onclick="openCart()" aria-label="Handlekurv">
+        🛒<span class="cart-count" id="cartCountMobile">0</span>
+      </button>
+      <button class="nav-hamburger" onclick="toggleNav()" aria-label="Meny">☰</button>
+    </div>
   </div>
   <div class="nav-mobile" id="navMobile">
     <a href="#butikk"   onclick="toggleNav()">{{ t.nav_shop }}</a>
@@ -574,37 +589,76 @@
 <!-- ── JS ──────────────────────────────────────────────────────────────────────── -->
 <script>
   // ── Shopify cart ──────────────────────────────────────────────────────────
-  const SHOPIFY_DOMAIN  = 'cafecalamari.myshopify.com';
-  const SHOPIFY_TOKEN   = 'fd2ed7ad186e4f1748a6cc2584ef86a6';
-  const VARIANT_ID      = 'gid://shopify/ProductVariant/48257133740282';
-  let checkoutUrl       = null;
+  const SHOPIFY_DOMAIN = 'cafecalamari.myshopify.com';
+  const SHOPIFY_TOKEN  = 'fd2ed7ad186e4f1748a6cc2584ef86a6';
+  const VARIANT_ID     = 'gid://shopify/ProductVariant/48257133740282';
 
   const client = ShopifyBuy.buildClient({
     domain: SHOPIFY_DOMAIN,
     storefrontAccessToken: SHOPIFY_TOKEN
   });
 
+  let cartState = { checkoutId: null, checkoutUrl: null, quantity: 0 };
+
+  // Last inn lagret cart fra localStorage
+  async function initCart() {
+    const saved = localStorage.getItem('cc_checkout');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        const checkout = await client.checkout.fetch(data.checkoutId);
+        if (checkout && !checkout.completedAt) {
+          cartState.checkoutId  = checkout.id;
+          cartState.checkoutUrl = checkout.webUrl;
+          cartState.quantity    = checkout.lineItems.reduce((s, i) => s + i.quantity, 0);
+          updateCartBadge();
+          return;
+        }
+      } catch(e) {}
+    }
+    localStorage.removeItem('cc_checkout');
+  }
+
+  function updateCartBadge() {
+    const q = cartState.quantity;
+    ['cartCount','cartCountMobile'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = q;
+      el.style.display = q > 0 ? 'flex' : 'none';
+    });
+  }
+
   async function addToCart() {
     const btn = document.getElementById('add-to-cart-btn');
     btn.disabled = true;
     btn.textContent = '…';
     try {
-      const checkout = await client.checkout.create();
-      await client.checkout.addLineItems(checkout.id, [{ variantId: VARIANT_ID, quantity: 1 }]);
-      checkoutUrl = checkout.webUrl;
+      let checkout;
+      if (cartState.checkoutId) {
+        checkout = await client.checkout.addLineItems(cartState.checkoutId, [{ variantId: VARIANT_ID, quantity: 1 }]);
+      } else {
+        checkout = await client.checkout.create();
+        checkout = await client.checkout.addLineItems(checkout.id, [{ variantId: VARIANT_ID, quantity: 1 }]);
+      }
+      cartState.checkoutId  = checkout.id;
+      cartState.checkoutUrl = checkout.webUrl;
+      cartState.quantity    = checkout.lineItems.reduce((s, i) => s + i.quantity, 0);
+      localStorage.setItem('cc_checkout', JSON.stringify({ checkoutId: checkout.id }));
+      updateCartBadge();
       openCart();
+      btn.textContent = '✓ Lagt til';
     } catch(e) {
       console.error(e);
-      btn.disabled = false;
       btn.textContent = 'Legg i handlekurv →';
     }
+    btn.disabled = false;
   }
 
   function openCart() {
+    if (cartState.quantity === 0 && !cartState.checkoutUrl) return;
     document.getElementById('cart-drawer').style.display  = 'flex';
     document.getElementById('cart-overlay').style.display = 'block';
-    document.getElementById('add-to-cart-btn').disabled   = false;
-    document.getElementById('add-to-cart-btn').textContent = '✓ Lagt til';
   }
 
   function closeCart() {
@@ -613,8 +667,10 @@
   }
 
   function goToCheckout() {
-    if (checkoutUrl) window.location.href = checkoutUrl;
+    if (cartState.checkoutUrl) window.location.href = cartState.checkoutUrl;
   }
+
+  initCart();
 
   function toggleNav() {
     document.getElementById('navMobile').classList.toggle('open');
