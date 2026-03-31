@@ -34,7 +34,7 @@ T = {
 
         "story_tag":     "Historien bak koppen",
         "story_h2":      "Vi strakk tentaklene til Colombia. Og ble forelsket.",
-        "story_p1":      "Akkurat som blekkspruten utforsker verden med alle sine armer — reiste vi til Andesfjellene for å finne noe ekte. Vi fant det i Santa Bárbara: en familie som har dyrket kaffe i generasjoner, med hendene i jordsmonnet og hjertet i hver bønne.",
+        "story_p1":      "Akkurat som blekkspruten utforsker verden med alle sine armer — reiste vi til Andesfjellene for å finne noe ekte. Vi fant det i høydene i de colombianske Andesfjellene: en familie som har dyrket kaffe i generasjoner, med hendene i jordsmonnet og hjertet i hver bønne.",
         "story_p2":      "Ingen mellommenn. Ingen kompromisser. Bønnene går fra gården i Colombia direkte til rosteriet i Oslo — og til deg.",
         "story_cta":     "Se produktene →",
 
@@ -90,7 +90,7 @@ T = {
 
         "story_tag":     "La historia detrás de la taza",
         "story_h2":      "Extendimos los tentáculos hasta Colombia. Y nos enamoramos.",
-        "story_p1":      "Como el calamar que explora el mundo con todos sus brazos, nosotros viajamos a los Andes en busca de algo auténtico. Lo encontramos en Santa Bárbara: una familia que ha cultivado café por generaciones, con las manos en la tierra y el corazón en cada grano.",
+        "story_p1":      "Como el calamar que explora el mundo con todos sus brazos, nosotros viajamos a los Andes en busca de algo auténtico. Lo encontramos en las alturas de los Andes colombianos: una familia que ha cultivado café por generaciones, con las manos en la tierra y el corazón en cada grano.",
         "story_p2":      "Sin intermediarios. Sin compromisos. Los granos van directamente de la finca en Colombia a la tostadora en Oslo — y a ti.",
         "story_cta":     "Ver productos →",
 
@@ -146,7 +146,7 @@ T = {
 
         "story_tag":     "The story behind the cup",
         "story_h2":      "We reached our tentacles to Colombia. And fell in love.",
-        "story_p1":      "Just like the squid explores the world with all its arms — we travelled to the Andes to find something real. We found it in Santa Bárbara: a family that has grown coffee for generations, with hands in the soil and heart in every bean.",
+        "story_p1":      "Just like the squid explores the world with all its arms — we travelled to the Andes to find something real. We found it in the heights of the Colombian Andes: a family that has grown coffee for generations, with hands in the soil and heart in every bean.",
         "story_p2":      "No middlemen. No compromises. Beans go directly from the farm in Colombia to the roastery in Oslo — and to you.",
         "story_cta":     "See products →",
 
