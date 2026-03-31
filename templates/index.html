@@ -678,36 +678,44 @@
 
   async function submitNewsletter(e) {
     e.preventDefault();
-    const email = document.getElementById('nlEmail').value;
-    const res = await fetch('/api/newsletter', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email})
-    });
-    if (res.ok) {
-      document.getElementById('nlForm').style.display = 'none';
-      document.getElementById('nlOk').style.display = 'block';
-    }
+    const btn = e.submitter || e.target.querySelector('button');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: document.getElementById('nlEmail').value})
+      });
+    } catch(err) {}
+    document.getElementById('nlForm').style.display = 'none';
+    document.getElementById('nlOk').style.display = 'block';
   }
 
   async function submitContact(e) {
     e.preventDefault();
-    const data = {
-      name:    document.getElementById('cfName').value,
-      email:   document.getElementById('cfEmail').value,
-      message: document.getElementById('cfMsg').value,
-    };
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    });
-    if (res.ok) {
-      document.getElementById('contactForm').reset();
-      const ok = document.getElementById('cfOk');
-      ok.style.display = 'block';
-      setTimeout(() => ok.style.display = 'none', 5000);
-    }
+    const btn = e.submitter || e.target.querySelector('button[type="submit"]');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '…';
+    try {
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name:    document.getElementById('cfName').value,
+          email:   document.getElementById('cfEmail').value,
+          message: document.getElementById('cfMsg').value,
+        })
+      });
+    } catch(err) {}
+    document.getElementById('contactForm').reset();
+    btn.disabled = false;
+    btn.textContent = orig;
+    const ok = document.getElementById('cfOk');
+    ok.style.display = 'block';
+    setTimeout(() => ok.style.display = 'none', 5000);
   }
 
   // Fade-in on scroll

@@ -244,7 +244,7 @@ def newsletter():
         msg["Subject"] = f"Ny påmelding: {email}"
         msg["From"]    = SMTP_USER
         msg["To"]      = EMAIL_TO
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=8) as s:
             s.ehlo(); s.starttls()
             s.login(SMTP_USER, SMTP_PASS)
             s.sendmail(SMTP_USER, EMAIL_TO, msg.as_string())
@@ -266,7 +266,7 @@ def contact():
         m["Subject"] = f"Ny melding fra cafecalamari.cafe — {name}"
         m["From"]    = SMTP_USER
         m["To"]      = EMAIL_TO
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as s:
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=8) as s:
             s.ehlo(); s.starttls()
             s.login(SMTP_USER, SMTP_PASS)
             s.sendmail(SMTP_USER, EMAIL_TO, m.as_string())
