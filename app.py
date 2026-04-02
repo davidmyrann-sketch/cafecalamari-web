@@ -188,6 +188,23 @@ def get_lang(req):
     return lang if lang in T else "no"
 
 # ── Ruter ──────────────────────────────────────────────────────────────────────
+@app.route("/auth-callback")
+def auth_callback():
+    code = request.args.get("code", "")
+    error = request.args.get("error", "")
+    if error:
+        return f"<h2>Feil: {error}</h2>", 400
+    if not code:
+        return "<h2>Ingen kode mottatt</h2>", 400
+    return f"""
+    <html><body style="font-family:sans-serif;max-width:600px;margin:60px auto;text-align:center;">
+    <h2>✅ Autorisasjonskode mottatt!</h2>
+    <p>Kopier denne koden og lim den inn i terminalen:</p>
+    <code style="background:#f4f4f4;padding:12px;display:block;font-size:14px;word-break:break-all;">{code}</code>
+    <p style="color:#888;font-size:13px;">Du kan lukke dette vinduet.</p>
+    </body></html>
+    """
+
 @app.route("/")
 def index():
     lang = get_lang(request)
