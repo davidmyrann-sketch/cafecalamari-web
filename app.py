@@ -3,8 +3,9 @@
 Café Calamarí — cafecalamari.cafe
 Flask + Railway + GitHub (standard stack)
 """
-import os
-from flask import Flask, render_template, request
+import os, uuid, tempfile
+from pathlib import Path
+from flask import Flask, render_template, request, send_file, abort
 
 app = Flask(__name__)
 
@@ -188,6 +189,38 @@ def get_lang(req):
     return lang if lang in T else "no"
 
 # ── Ruter ──────────────────────────────────────────────────────────────────────
+MEDIA_KEY  = os.environ.get("MEDIA_UPLOAD_KEY", "heidi-media-2026")
+MEDIA_DIR  = Path(tempfile.gettempdir()) / "cc_media"
+MEDIA_DIR.mkdir(exist_ok=True)
+
+@app.route("/media/upload", methods=["POST"])
+def media_upload():
+    if request.headers.get("X-Upload-Key") != MEDIA_KEY:
+        abort(403)
+    f = request.files.get("file")
+    if not f:
+        abort(400)
+    ext  = Path(f.filename).suffix or ".bin"
+    name = uuid.uuid4().hex + ext
+    f.save(MEDIA_DIR / name)
+    return {"url": f"https://cafecalamari.cafe/media/{name}"}, 200
+
+@app.route("/media/<name>")
+def media_serve(name):
+    p = MEDIA_DIR / name
+    if not p.exists():
+        abort(404)
+    return send_file(p)
+
+@app.route("/media/delete/<name>", methods=["DELETE"])
+def media_delete(name):
+    if request.headers.get("X-Upload-Key") != MEDIA_KEY:
+        abort(403)
+    p = MEDIA_DIR / name
+    if p.exists():
+        p.unlink()
+    return {"ok": True}, 200
+
 @app.route("/auth-callback")
 def auth_callback():
     code = request.args.get("code", "")
