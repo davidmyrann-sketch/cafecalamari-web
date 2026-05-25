@@ -5,7 +5,7 @@ Flask + Railway + GitHub (standard stack)
 """
 import os, uuid, tempfile
 from pathlib import Path
-from flask import Flask, render_template, request, send_file, abort
+from flask import Flask, render_template, request, send_file, abort, redirect, Response
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ T = {
         "nav_cta":       "Kjøp kaffe",
 
         "hero_tag":      "Direktehandel · Colombia · Oslo",
-        "hero_h1":       "Kaffe med sjel fra Andesfjellene",
+        "hero_h1":       "Single Origin Kaffe med sjel fra Andesfjellene",
         "hero_sub":      "Håndplukket på 1 700 meters høyde i Santa Bárbara, Colombia. Bragt hjem til deg i Oslo.",
         "hero_cta1":     "Gå til nettbutikk →",
         "hero_cta2":     "Vår historie",
@@ -237,6 +237,45 @@ def auth_callback():
     <p style="color:#888;font-size:13px;">Du kan lukke dette vinduet.</p>
     </body></html>
     """
+
+@app.before_request
+def canonical_www():
+    host = request.host.split(":")[0]
+    if host == "cafecalamari.cafe":
+        url = "https://www.cafecalamari.cafe" + request.full_path.rstrip("?")
+        return redirect(url, 301)
+
+@app.route("/robots.txt")
+def robots_txt():
+    return Response(
+        "User-agent: *\nAllow: /\nSitemap: https://www.cafecalamari.cafe/sitemap.xml\n",
+        mimetype="text/plain"
+    )
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.cafecalamari.cafe/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.cafecalamari.cafe/?lang=es</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.cafecalamari.cafe/?lang=en</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>"""
+    return Response(xml, mimetype="application/xml")
 
 @app.route("/")
 def index():
