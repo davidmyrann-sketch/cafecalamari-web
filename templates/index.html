@@ -342,6 +342,44 @@
     .cart-freeship { background: rgba(200,134,10,.15); border: 1px solid rgba(200,134,10,.35);
       border-radius: 8px; padding: 8px 14px; font-family: -apple-system, sans-serif;
       font-size: .8rem; font-weight: 700; color: var(--gold-lt); text-align: center; margin-bottom: 14px; }
+
+    /* ── Mobile 768px ───────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      section { padding: 56px 0; }
+      .hero { min-height: auto; }
+      .hero-logo-bg { opacity: .07; width: min(70vw, 300px); }
+      .hero-btns { flex-direction: column; align-items: stretch; }
+      .hero-btns a { text-align: center; }
+      .trust-inner { gap: 20px; }
+      .story-badge { width: 80px; height: 80px; bottom: 12px; right: 12px; }
+      .story-badge span:first-child { font-size: 1.1rem; }
+      .why h2 { margin-bottom: 32px; }
+    }
+
+    /* ── Mobile 480px ───────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      section { padding: 44px 0; }
+      .container { padding: 0 16px; }
+      .hero h1 { font-size: 1.9rem; }
+      .hero p { font-size: 1rem; margin-bottom: 24px; }
+      .hero-logo-bg { display: none; }
+      .hero-proof { flex-wrap: wrap; gap: 6px; }
+      .trust-inner { flex-direction: column; gap: 10px; align-items: flex-start; }
+      .why-grid { grid-template-columns: 1fr; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .why-card { padding: 22px 18px; }
+      .testi-card { padding: 22px 18px; }
+      .story-badge { width: 72px; height: 72px; bottom: 8px; right: 8px; font-size: .62rem; }
+      .story-badge span:first-child { font-size: 1rem; }
+      .fomo-bar { font-size: .78rem; padding: 6px 14px; }
+      .announce-bar { font-size: .76rem; padding: 8px 12px; }
+      .btn-primary, .btn-ghost { padding: 13px 22px; font-size: .95rem; }
+      .btn-buy { font-size: .9rem; }
+      .shopify-note { font-size: .72rem; }
+      .footer-links { gap: 14px; font-size: .8rem; }
+      .social-sub { font-size: .9rem; }
+      h2 { font-size: clamp(1.4rem, 6vw, 2rem); }
+    }
   </style>
 </head>
 <body>
